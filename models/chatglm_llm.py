@@ -164,7 +164,7 @@ class ChatGLM(LLM):
                     if k.startswith("transformer.prefix_encoder."):
                         new_prefix_state_dict[k[len("transformer.prefix_encoder."):]] = v
                 self.model.transformer.prefix_encoder.load_state_dict(new_prefix_state_dict)
-                self.model.transformer.prefix_encoder.quantize(4).half().to("mps")
+                self.model.transformer.prefix_encoder.quantize(8).half().to("mps")
             except Exception as e:
                 print(e)
                 print("加载PrefixEncoder模型参数失败")
