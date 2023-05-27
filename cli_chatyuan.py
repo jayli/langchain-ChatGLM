@@ -17,6 +17,7 @@ model_config.llm_model_dict = {
     "chatglm-6b-int4": "../chatglm-6b-int4",
     "chatglm-6b-int8": "../chatglm-6b-int8",
     "chatglm-6b": "../chatglm",
+    "moss": "fnlp/moss-moon-003-sft",
 }
 
 from chains.local_doc_qa import LocalDocQA
@@ -24,10 +25,10 @@ from chains.local_doc_qa import LocalDocQA
 # 修改为你本机 nltk 目录
 model_config.VS_ROOT_PATH = "/Users/hfy/nltk_data/"
 
-EMBEDDING_MODEL = "text2vec-base" # embedding 模型，对应 embedding_model_dict
+EMBEDDING_MODEL = "text2vec" # embedding 模型，对应 embedding_model_dict
 VECTOR_SEARCH_TOP_K = 6
 LLM_MODEL = "chatyuan"     # LLM 模型名，对应 llm_model_dict
-LLM_HISTORY_LEN = 5
+LLM_HISTORY_LEN = 2
 HISTORY = []
 DEVICE = "cuda" if torch.cuda.is_available() else "mps" if torch.backends.mps.is_available() else "cpu"
 
@@ -42,12 +43,27 @@ local_doc_qa.init_cfg(llm_model=LLM_MODEL,
 vs_path, _ = local_doc_qa.init_knowledge_vector_store("/Users/hfy/jayli/ai/local_content.txt")
 
 def display_answer(agent, query, vs_path, history=[]):
+    content = ""
+    last_print_len = 0
     for resp, history in local_doc_qa.get_knowledge_based_answer(query=query,
                                                                  vs_path=vs_path,
                                                                  chat_history=history,
                                                                  streaming=False):
-        clear_output(wait=True)
-    return resp, history
+        # print(resp["result"][last_print_len:], end="", flush=True)
+        # print("|")
+        # last_print_len = len(resp["result"])
+        #clear_output(wait=True)
+        content = content + resp["result"]
+    return content , history
+
+def _display_answer(agent, query, vs_path, history=[]):
+    for resp, history in local_doc_qa.get_knowledge_based_answer(
+        query=query, vs_path=vs_path, chat_history=history, streaming=False
+    ):
+        print(resp["result"])
+        print("|")
+        print("\n")
+        print(resp["source_documents"])
 
 def history_cut(arr):
     global LLM_HISTORY_LEN
@@ -57,17 +73,19 @@ def history_cut(arr):
         return arr[1:]
 
 def answer(query = "", history = []):
-    global local_doc_qa, HISTORY, vs_path
+    global HISTORY
     result, HISTORY = display_answer(local_doc_qa,
                                      query=query,
                                      vs_path=vs_path,
                                      history=history_cut(HISTORY))
-    return result["result"]
+    return result
 
 if __name__ == "__main__":
-    value = input("问题1:")
-    print(answer(value))
-    value = input("问题2:")
-    print(answer(value))
-    value = input("问题3:")
-    print(answer(value))
+    while True:
+        query = input("Input your question：")
+        _display_answer(local_doc_qa, query, vs_path, [])
+        # answer(query)
+        # print(answer(query))
+
+
+

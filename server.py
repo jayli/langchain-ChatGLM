@@ -16,4 +16,4 @@ def handle_langchain_ask():
                                    'content': content}), 200)
 
 if __name__ == "__main__":
-    app.run(debug=True, port=7788)
+    app.run(debug=False, port=7788)

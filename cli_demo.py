@@ -8,7 +8,7 @@ from models.loader import LoaderCheckPoint
 nltk.data.path = [NLTK_DATA_PATH] + nltk.data.path
 
 # Show reply with source text from input document
-REPLY_WITH_SOURCE = False
+REPLY_WITH_SOURCE = True
 
 
 def main():
@@ -25,8 +25,12 @@ def main():
                           embedding_device=EMBEDDING_DEVICE,
                           top_k=VECTOR_SEARCH_TOP_K)
     vs_path = None
-    filepath = "/Users/hfy/jayli/ai/langchain-ChatGLM/requirements.txt"
-    vs_path, _ = local_doc_qa.init_knowledge_vector_store(filepath)
+    while not vs_path:
+        filepath = "/Users/hfy/jayli/ai/local_content.txt"
+        # 判断 filepath 是否为空，如果为空的话，重新让用户输入,防止用户误触回车
+        if not filepath:
+            continue
+        vs_path, _ = local_doc_qa.init_knowledge_vector_store(filepath)
     history = []
     while True:
         query = input("Input your question 请输入问题：")
