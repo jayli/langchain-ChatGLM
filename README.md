@@ -1,10 +1,10 @@
-# 在 MacBook 上部署的本地知识库大模型 langchain + chatglm / chatyuan
+# 在 MacBook 上部署的本地知识库大模型 langchain + chatyuan/chatglm
 
 本项目 form 自 <https://github.com/imClumsyPanda/langchain-ChatGLM>，原理和概念用法请看原文，这里只说下为什么在 MacBook 上部署大模型以及如何做？
 
 ## 介绍
 
-效果比较好的大模型肯定是 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)，没有 N 卡的情况下太慢，尽管可以用 mps 给 AMD GPU 加速，在 Mac 上一次计算有两三分钟才返回。这里选择入门级 [ChatYuan2](https://huggingface.co/ClueAI/ChatYuan-large-v2)。如果机器可以，最好还是用 chatglm-6b。
+项目默认加载 chatyuan2 模型，但效果比较好的大模型肯定是 [ChatGLM-6B](https://github.com/THUDM/ChatGLM-6B)，没有 N 卡的情况下太慢，尽管可以用 mps 给 AMD GPU 加速，在 Mac 上一次计算有两三分钟才返回。这里选择入门级 [ChatYuan2](https://huggingface.co/ClueAI/ChatYuan-large-v2)。如果机器可以，最好还是用 chatglm-6b。
 
 ## 硬件条件
 
@@ -27,12 +27,9 @@ python 3.8 及以上
 git clone git@github.com:jayli/langchain-ChatGLM.git
 cd langchain-ChatGLM
 pip install -r requirements.txt
-
-# 命令行
-python cli_chatyuan.py
-
-# 启动服务
 ```
+
+本地知识库路径是项目根目录下的 `local_content.txt`
 
 两个启动方式
 
