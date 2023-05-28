@@ -1,4 +1,4 @@
-# 在 MacBook 上部署的本地知识库大模型 langchain + chatyuan/chatglm
+# 在 MacBook 上部署本地知识库大模型 langchain + chatyuan/chatglm
 
 本项目 form 自 <https://github.com/imClumsyPanda/langchain-ChatGLM>，原理和概念用法请看原文，这里只说下为什么在 MacBook 上部署大模型以及如何做？
 
