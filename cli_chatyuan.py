@@ -50,6 +50,8 @@ def answer(query = "", history = []):
 if __name__ == "__main__":
     while True:
         query = input("Input your question：")
+        if query == "":
+            continue
         print(answer(query))
 
 
