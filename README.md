@@ -38,9 +38,11 @@ pip install -r requirements.txt
 
 启动服务后默认开启本机 8899 端口，这样访问
 
-   curl -d "ask=helloworld1" \
-        -H "Content-Type: application/x-www-form-urlencoded"  \
-        -X POST http://127.0.0.1:8899/ai/langchain/
+```
+curl -d "ask=helloworld1" \
+    -H "Content-Type: application/x-www-form-urlencoded"  \
+    -X POST http://127.0.0.1:8899/ai/langchain/
+```
 
 返回结果：
 
